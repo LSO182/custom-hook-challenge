@@ -3,7 +3,7 @@ import { useState } from "react";
 export const SearchCategories = ({ onNewCategory }) => {
   const [inputVal, setInputVal] = useState("");
 
-  const handdleInput = (event) => {
+  const handleInput = (event) => {
     setInputVal(event.target.value);
   };
 
@@ -21,7 +21,7 @@ export const SearchCategories = ({ onNewCategory }) => {
           type="text"
           placeholder="Gif seeker"
           value={inputVal}
-          onChange={handdleInput}
+          onChange={handleInput}
         />
       </form>
     </>
