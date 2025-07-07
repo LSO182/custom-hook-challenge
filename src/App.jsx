@@ -1,24 +1,17 @@
+import { useState, useEffect } from "react";
+
+import { Header } from "./components/Header";
 import { Gif } from "./components/Gif";
 import { SearchCategories } from "./components/SearchCategories";
-import { useState, useEffect } from "react";
+
 import { getGifs } from "./helpers/getGifs";
-import { Header } from "./components/Header";
 
 import "./styles.css";
 
 function App() {
   const [categories, setCategories] = useState(["Movies"]);
   const [images, setImages] = useState([]);
-
-  const loadImages = async () => {
-    const newImages = await getGifs(categories[0]);
-    setImages(newImages);
-  };
-
-  useEffect(() => {
-    if (categories.length === 0) return;
-    loadImages();
-  }, [categories]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleCategories = (newCategory) => {
     setCategories((prevCategories) => {
@@ -33,20 +26,34 @@ function App() {
     });
   };
 
+  const loadImages = async () => {
+    const newImages = await getGifs(categories[0]);
+    setImages(newImages);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (categories.length === 0) return;
+    loadImages();
+  }, [categories]);
+
   return (
     <>
-    <Header title="The Gif Seeker" />
+      <Header title="The Gif Seeker" />
       <SearchCategories onNewCategory={handleCategories} />
-      {images.map((image) => {
-        return (
-          <Gif
-            key={image.id}
-            title={image.title}
-            url={image.url}
-            id={image.id}
-          />
-        );
-      })}
+      {isLoading ? <p>Cargando</p> : null}
+      <div className="card-grid">
+        {images.map((image) => {
+          return (
+            <Gif
+              key={image.id}
+              title={image.title}
+              imageUrl={image.url}
+              id={image.id}
+            />
+          );
+        })}
+      </div>
     </>
   );
 }

@@ -1,10 +1,10 @@
-export const Gif = ({title,url,id}) => {
+export const Gif = ({title,imageUrl,id}) => {
   return (
     <>
-      <ol>
-        <p id={id}>{title}</p>
-        <img src={url} alt={`Imagen de ${title}`} />
-      </ol>
+      <div id={id} className="card">
+        <p>{title}</p>
+        <img src={imageUrl} alt={`Imagen de ${title}`} />
+      </div>
     </>
   );
 };
